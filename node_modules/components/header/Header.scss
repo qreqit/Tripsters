@@ -1,0 +1,87 @@
+$background-light-gray: #36453B;
+$text-color-light: #F5F9E9;
+$transition-duration: 300ms;
+
+.header {
+  background-color: $background-light-gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 24px;
+
+  &__linkBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+
+    &--link {
+      text-decoration: none;
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: $text-color-light;
+      width: 120px;
+      transition: all $transition-duration;
+      text-align: center;
+
+      &:hover {
+        letter-spacing: 1.5px;
+        color: #d3d6c8;
+      }
+    }
+
+    input {
+      border:none;
+      outline: none;
+      padding: 7px;
+      border-radius: 15px;
+    }
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    &--sign {
+      width: 160px;
+      
+      p {
+        margin: 0;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: $text-color-light;
+        transition: all $transition-duration;
+        text-align: center;
+        cursor: pointer;
+  
+        &:hover {
+          color: #d3d6c8;
+        }
+      }
+    }
+
+    &--lang {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+     
+  
+      &--option {
+        margin: 0;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: $text-color-light;
+        transition: all $transition-duration;
+        text-align: center;
+  
+        &:hover {
+          color: #d3d6c8;
+        }
+      }
+    }
+  }
+}
