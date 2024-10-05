@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
         roles.add(adminRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roles);
+        user.setCreated_at(LocalDateTime.now());
         userRepository.save(user);
         return userMapper.toDto(user);
     }
