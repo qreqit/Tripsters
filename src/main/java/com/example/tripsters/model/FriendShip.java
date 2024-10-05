@@ -21,12 +21,15 @@ public class FriendShip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
     @ManyToOne
     @JoinColumn(name = "friend_id", nullable = false)
-    private Friend friend;
+    private User friend;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
