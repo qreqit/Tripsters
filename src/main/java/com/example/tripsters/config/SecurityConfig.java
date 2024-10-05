@@ -1,5 +1,6 @@
 package com.example.tripsters.config;
 
+import com.example.tripsters.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
