@@ -17,11 +17,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -43,6 +42,8 @@ public class User implements UserDetails {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime created_at;
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
     @ManyToMany(fetch = FetchType.EAGER)
