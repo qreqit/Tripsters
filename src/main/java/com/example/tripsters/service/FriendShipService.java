@@ -18,4 +18,6 @@ public interface FriendShipService {
     void deleteFriendShip(Long friendShipId);
 
     List<FriendShipResponseDto> getAllFriendShips();
+
+    List<FriendShipResponseDto> getAllFriendShipsForCurrentUser();
 }

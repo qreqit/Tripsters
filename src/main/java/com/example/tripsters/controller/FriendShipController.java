@@ -50,6 +50,11 @@ public class FriendShipController {
         return friendShipService.getAllFriendShips();
     }
 
+    @GetMapping("/user")
+    public List<FriendShipResponseDto> getAllFriendShipsForCurrentUser() {
+        return friendShipService.getAllFriendShipsForCurrentUser();
+    }
+
     @DeleteMapping("/{friendId}")
     public void deleteFriendById(@PathVariable Long friendId) {
         friendShipService.deleteFriendShip(friendId);
