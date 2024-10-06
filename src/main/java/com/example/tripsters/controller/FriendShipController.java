@@ -33,9 +33,9 @@ public class FriendShipController {
         return friendShipService.updateFriendShipStatus(id, statusDto);
     }
 
-    @GetMapping("/{id}")
-    public FriendShipResponseDto findFriendShipById(@PathVariable Long friendShipId) {
-        return friendShipService.findFriendShipById(friendShipId);
+    @GetMapping("/id/{findFriendId}")
+    public FriendShipResponseDto findFriendShipById(@PathVariable Long findFriendId) {
+        return friendShipService.findFriendShipById(findFriendId);
     }
 
     @GetMapping("/email/{friendEmail}")
@@ -43,7 +43,7 @@ public class FriendShipController {
         return friendShipService.findFriendShipByFriendEmail(friendEmail);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{friendId}")
     public void deleteFriendById(@PathVariable Long friendId) {
         friendShipService.deleteFriendShip(friendId);
     }

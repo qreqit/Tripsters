@@ -1,12 +1,12 @@
 package com.example.tripsters.dto.friendship;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class CreateFriendShipRequestDto {
-    @NotBlank
+    @NotNull
     private Long userId;
-    @NotBlank
+    @NotNull
     private Long friendId;
 }

@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(config = MapperConfig.class)
 public interface FriendShipMapper {
     @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "friend.id", target = "friendId")
     FriendShipResponseDto toDto(FriendShip friendShip);
 
     FriendShip toModel(CreateFriendShipRequestDto requestDto);
