@@ -40,6 +40,7 @@ databaseChangeLog:
             referencedTableName: users
             referencedColumnNames: id
             onDelete: CASCADE
+            constraintName: fk_friendships_user_id
 
         - addForeignKeyConstraint:
             baseTableName: friendships
@@ -47,3 +48,4 @@ databaseChangeLog:
             referencedTableName: users
             referencedColumnNames: id
             onDelete: CASCADE
+            constraintName: fk_friendships_friend_id

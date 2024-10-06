@@ -67,7 +67,7 @@ public class FriendShipServiceImpl implements FriendShipService {
     public FriendShipResponseDto findFriendShipByFriendEmail(String friendEmail) {
         FriendShip friendShip = friendShipRepository.findFriendShipByUserEmail(friendEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Can not found friendShip"
-                        + " by friend email" + friendEmail));
+                        + " by email " + friendEmail));
 
         return friendShipMapper.toDto(friendShip);
     }
