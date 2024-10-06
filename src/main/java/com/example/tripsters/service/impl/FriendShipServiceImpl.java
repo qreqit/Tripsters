@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -65,7 +66,7 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public FriendShipResponseDto findFriendShipByFriendEmail(String friendEmail) {
-        FriendShip friendShip = friendShipRepository.findFriendShipByUserEmail(friendEmail)
+        FriendShip friendShip = friendShipRepository.findFriendShipByFriendEmail(friendEmail)
                 .orElseThrow(() -> new EntityNotFoundException("Can not found friendShip"
                         + " by email " + friendEmail));
 
@@ -75,5 +76,13 @@ public class FriendShipServiceImpl implements FriendShipService {
     @Override
     public void deleteFriendShip(Long friendShipId) {
         friendShipRepository.deleteById(friendShipId);
+    }
+
+    @Override
+    public List<FriendShipResponseDto> getAllFriendShips() {
+        List<FriendShip>friendShips = friendShipRepository.findAll();
+        return  friendShips.stream()
+                .map(friendShipMapper::toDto)
+                .toList();
     }
 }
