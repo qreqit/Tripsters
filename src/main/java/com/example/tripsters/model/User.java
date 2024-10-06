@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String lastName;
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 

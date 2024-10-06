@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         roles.add(adminRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roles);
-        user.setCreated_at(LocalDateTime.now());
+        user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
         return userMapper.toDto(user);
     }
