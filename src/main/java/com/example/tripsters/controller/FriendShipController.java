@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/friends")
 @RequiredArgsConstructor
@@ -41,6 +43,11 @@ public class FriendShipController {
     @GetMapping("/email/{friendEmail}")
     public FriendShipResponseDto findFriendShipByFriendEmail(@PathVariable String friendEmail) {
         return friendShipService.findFriendShipByFriendEmail(friendEmail);
+    }
+
+    @GetMapping
+    public List<FriendShipResponseDto> getAllFriendShips() {
+        return friendShipService.getAllFriendShips();
     }
 
     @DeleteMapping("/{friendId}")
