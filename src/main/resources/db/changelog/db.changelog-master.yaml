@@ -5,7 +5,5 @@ databaseChangeLog:
       file: db/changelog/changes/02-create-table-roles.yaml
   - include:
       file: db/changelog/changes/03-create-users-roles-table.yaml
-#  - include:
-#      file:
-#  - include:
-#      file:
+  - include:
+      file: db/changelog/changes/04-create-table-friendShips.yaml

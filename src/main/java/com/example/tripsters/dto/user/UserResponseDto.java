@@ -9,5 +9,5 @@ public class UserResponseDto {
     private String email;
     private String firstName;
     private String lastName;
-    private String created_at;
+    private String createdAt;
 }

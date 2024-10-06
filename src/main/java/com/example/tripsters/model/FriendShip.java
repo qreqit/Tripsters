@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "friendships")
 public class FriendShip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +36,7 @@ public class FriendShip {
     @Column(nullable = false)
     private Status status;
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     public enum Status {
         FRIENDS,
