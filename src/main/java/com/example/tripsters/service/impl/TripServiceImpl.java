@@ -9,7 +9,6 @@ import com.example.tripsters.model.Chat;
 import com.example.tripsters.model.Map;
 import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
-import com.example.tripsters.model.Vote;
 import com.example.tripsters.repository.TripRepository;
 import com.example.tripsters.repository.UserRepository;
 import com.example.tripsters.service.TripService;
