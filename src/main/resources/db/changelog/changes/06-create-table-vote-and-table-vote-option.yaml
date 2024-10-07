@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: qreqit
+      changes:
+        - createTable:
+            tableName: votes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+                    defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: trip_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: votes
+            baseColumnNames: trip_id
+            referencedTableName: trips
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: votes
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+
+        - createTable:
+            tableName: vote_options
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: option_text
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vote_count
+                  type: DOUBLE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vote_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: vote_options
+            baseColumnNames: vote_id
+            referencedTableName: votes
+            referencedColumnNames: id

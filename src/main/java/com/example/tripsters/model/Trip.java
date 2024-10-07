@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -25,22 +27,31 @@ public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String destination;
     @Column
     private LocalDateTime startDate;
     @Column
     private LocalDateTime endDate;
-    @Column
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vote> votes = new HashSet<>();
+
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "map_id")
     private Map map;
+
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "chat_id")
     private Chat chat;
 
     @ManyToMany
+    @JoinTable(
+            name = "trips_id",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> users = new HashSet<>();
 }
