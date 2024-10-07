@@ -7,3 +7,11 @@ databaseChangeLog:
       file: db/changelog/changes/03-create-users-roles-table.yaml
   - include:
       file: db/changelog/changes/04-create-table-friendShips.yaml
+  - include:
+      file: db/changelog/changes/05-create-table-trips.yaml
+  - include:
+      file: db/changelog/changes/06-create-table-vote-and-table-vote-option.yaml
+  - include:
+      file: db/changelog/changes/07-create-table-map-and-table-map-point.yaml
+  - include:
+      file: db/changelog/changes/08-create-table-chat-and-chat-message.yaml

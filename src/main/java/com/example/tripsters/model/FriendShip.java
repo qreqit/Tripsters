@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE friendships SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
 @Entity
-@NoArgsConstructor
 @Table(name = "friendships")
 public class FriendShip {
     @Id

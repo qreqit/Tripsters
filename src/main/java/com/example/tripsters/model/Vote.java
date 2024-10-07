@@ -21,7 +21,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "votes")
 public class Vote {
     @Id
@@ -29,9 +28,6 @@ public class Vote {
     private Long id;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-    @ManyToOne
-    @JoinColumn(name = "trip_id", nullable = false)
-    private Trip trip;
     @ManyToMany
     @JoinTable(
             name = "votes_users",
@@ -39,4 +35,8 @@ public class Vote {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> users = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "trip_id", nullable = false) // Вказуємо, що це обов'язковий зв'язок
+    private Trip trip;
 }

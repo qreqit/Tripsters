@@ -19,16 +19,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "maps")
 public class Map {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "trip_id", nullable = false)
-    private Trip trip;
 
     @OneToMany(mappedBy = "map", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MapPoint> mapPoints = new HashSet<>();

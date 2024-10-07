@@ -15,7 +15,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "vote_options")
 public class VoteOption {
     @Id

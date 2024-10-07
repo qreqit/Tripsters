@@ -13,17 +13,6 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-              - column:
-                  name: trip_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: chats
-            baseColumnNames: trip_id
-            constraintName: fk_chats_trip
-            referencedTableName: trips
-            referencedColumnNames: id
 
         - createTable:
             tableName: chat_messages

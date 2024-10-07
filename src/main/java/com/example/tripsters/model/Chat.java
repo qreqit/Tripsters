@@ -19,7 +19,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "chats")
 public class Chat {
     @Id
@@ -27,7 +26,4 @@ public class Chat {
     private Long id;
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatMessage> chatMessages = new HashSet<>();
-    @OneToOne
-    @JoinColumn(name = "trip_id", nullable = false)
-    private Trip trip;
 }

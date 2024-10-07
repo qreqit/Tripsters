@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "map_points")
 public class MapPoint {
     @Id

@@ -13,17 +13,6 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     nullable: false
-              - column:
-                  name: trip_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: maps
-            baseColumnNames: trip_id
-            constraintName: fk_maps_trip
-            referencedTableName: trips
-            referencedColumnNames: id
 
         - createTable:
             tableName: map_points
