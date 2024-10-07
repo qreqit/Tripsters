@@ -61,7 +61,7 @@ public class User implements UserDetails {
             orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<FriendShip> friends = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "users")
     private Set<Trip> trips = new HashSet<>();
 
     @Override
