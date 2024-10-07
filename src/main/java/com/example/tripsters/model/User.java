@@ -61,6 +61,9 @@ public class User implements UserDetails {
             orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<FriendShip> friends = new HashSet<>();
 
+    @ManyToMany
+    private Set<Trip> trips = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
