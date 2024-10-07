@@ -24,21 +24,38 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: votes
+            baseColumnNames: trip_id
+            referencedTableName: trips
+            referencedColumnNames: id
+            constraintName: fk_votes_trip
+
+        - createTable:
+            tableName: votes_users
+            columns:
+              - column:
+                  name: vote_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
               - column:
                   name: user_id
                   type: BIGINT
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
-            baseTableName: votes
-            baseColumnNames: trip_id
-            referencedTableName: trips
+            baseTableName: votes_users
+            baseColumnNames: vote_id
+            referencedTableName: votes
             referencedColumnNames: id
+            constraintName: fk_votes_users_vote
         - addForeignKeyConstraint:
-            baseTableName: votes
+            baseTableName: votes_users
             baseColumnNames: user_id
             referencedTableName: users
             referencedColumnNames: id
+            constraintName: fk_votes_users_user
 
         - createTable:
             tableName: vote_options
@@ -70,3 +87,4 @@ databaseChangeLog:
             baseColumnNames: vote_id
             referencedTableName: votes
             referencedColumnNames: id
+            constraintName: fk_vote_options_vote

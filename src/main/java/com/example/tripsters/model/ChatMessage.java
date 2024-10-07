@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "chat_messages")
 public class ChatMessage {
     @Id
