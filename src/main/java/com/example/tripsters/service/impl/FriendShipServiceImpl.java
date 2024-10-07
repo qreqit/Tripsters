@@ -39,8 +39,8 @@ public class FriendShipServiceImpl implements FriendShipService {
     public FriendShipResponseDto addFriend(CreateFriendShipRequestDto requestDto) {
         User authenticatedUser = getAuthenticatedUser();
 
-        if (!authenticatedUser.getId().equals(requestDto.getUserId()) &&
-            !authenticatedUser.getId().equals(requestDto.getFriendId())) {
+        if (!authenticatedUser.getId().equals(requestDto.getUserId())
+                && !authenticatedUser.getId().equals(requestDto.getFriendId())) {
             throw new IllegalArgumentException("You can only add friends to your own account.");
         }
 
@@ -71,8 +71,8 @@ public class FriendShipServiceImpl implements FriendShipService {
                         + "friendShip with id: " + id));
 
         User authenticatedUser = getAuthenticatedUser();
-        if (!friendShip.getUser().getId().equals(authenticatedUser.getId()) &&
-                !friendShip.getFriend().getId().equals(authenticatedUser.getId())) {
+        if (!friendShip.getUser().getId().equals(authenticatedUser.getId())
+                && !friendShip.getFriend().getId().equals(authenticatedUser.getId())) {
             throw new IllegalArgumentException("You can only update friendships you are part of.");
         }
 
@@ -94,7 +94,8 @@ public class FriendShipServiceImpl implements FriendShipService {
     public FriendShipResponseDto findFriendShipByFriendEmail(String email) {
         FriendShip friendShip = friendShipRepository.findFriendShipByFriendEmail(email)
                 .orElseGet(() -> friendShipRepository.findFriendShipByUserEmail(email)
-                        .orElseThrow(() -> new EntityNotFoundException("Can not find friendShip with email: " + email)));
+                        .orElseThrow(() -> new EntityNotFoundException("Can not find"
+                                + " friendShip with email: " + email)));
 
         return friendShipMapper.toDto(friendShip);
     }
@@ -103,22 +104,23 @@ public class FriendShipServiceImpl implements FriendShipService {
     @Override
     public void deleteFriendShip(Long friendShipId) {
         FriendShip friendShip = friendShipRepository.findById(friendShipId)
-                .orElseThrow(() -> new EntityNotFoundException("Can not find friendShip with id: " + friendShipId));
+                .orElseThrow(() -> new EntityNotFoundException("Can not "
+                        + "find friendShip with id: " + friendShipId));
 
         User authenticatedUser = getAuthenticatedUser();
-        if (!friendShip.getUser().getId().equals(authenticatedUser.getId()) &&
-            !friendShip.getFriend().getId().equals(authenticatedUser.getId())) {
+        if (!friendShip.getUser().getId().equals(authenticatedUser.getId())
+                && !friendShip.getFriend().getId().equals(authenticatedUser.getId())) {
             throw new IllegalArgumentException("You can only delete friendships you are part of.");
         }
 
         friendShipRepository.deleteById(friendShipId);
-        friendShipRepository.flush();
+        friendShip.setDeleted(true);
     }
 
     @Override
     public List<FriendShipResponseDto> getAllFriendShips() {
         List<FriendShip>friendShips = friendShipRepository.findAll();
-        return  friendShips.stream()
+        return friendShips.stream()
                 .map(friendShipMapper::toDto)
                 .toList();
     }
@@ -127,8 +129,10 @@ public class FriendShipServiceImpl implements FriendShipService {
     @Override
     public List<FriendShipResponseDto> getAllFriendShipsForCurrentUser() {
         User authenticatedUser = getAuthenticatedUser();
-        List<FriendShip> friendShipsByUser = friendShipRepository.findByUserId(authenticatedUser.getId()).orElse(List.of());
-        List<FriendShip> friendShipsByFriend = friendShipRepository.findByFriendId(authenticatedUser.getId()).orElse(List.of());
+        List<FriendShip> friendShipsByUser = friendShipRepository
+                .findByUserId(authenticatedUser.getId()).orElse(List.of());
+        List<FriendShip> friendShipsByFriend = friendShipRepository
+                .findByFriendId(authenticatedUser.getId()).orElse(List.of());
 
         List<FriendShip> allFriendShips = new ArrayList<>();
         allFriendShips.addAll(friendShipsByUser);
