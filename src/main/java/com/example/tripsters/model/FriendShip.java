@@ -12,11 +12,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE friendships SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 @Entity
 @Table(name = "friendships")
 public class FriendShip {
@@ -35,8 +39,12 @@ public class FriendShip {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
 
     public enum Status {
         FRIENDS,
