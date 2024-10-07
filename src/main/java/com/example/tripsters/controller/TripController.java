@@ -1,6 +1,5 @@
 package com.example.tripsters.controller;
 
-import com.example.tripsters.dto.friendship.FriendShipResponseDto;
 import com.example.tripsters.dto.trip.CreateTripRequestDto;
 import com.example.tripsters.dto.trip.TripResponseDto;
 import com.example.tripsters.dto.trip.UpdateTripRequestDto;
