@@ -1,0 +1,7 @@
+@import '../../../mixins';
+
+.triplist{
+  @include page-grid;
+  margin-top: 80px;
+  padding-inline: 40px;
+}

@@ -1,6 +1,4 @@
-$background-light-gray: #36453B;
-$text-color-light: #F5F9E9;
-$transition-duration: 300ms;
+@import '../../_variables.scss';
 
 .header {
   background-color: $background-light-gray;
@@ -26,8 +24,8 @@ $transition-duration: 300ms;
       text-align: center;
 
       &:hover {
-        letter-spacing: 1.5px;
-        color: #d3d6c8;
+        letter-spacing: 1.3px;
+        color: #6893f0b0;
       }
     }
 

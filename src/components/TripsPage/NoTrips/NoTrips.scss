@@ -1,0 +1,27 @@
+@import "../../../variables";
+
+.noTrips {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &_header {
+    font-size: 70px;
+    color: $text-color-dark;
+  }
+
+  &_button {
+    font-size: 40px;
+    text-decoration: none;
+    padding: 15px 70px;
+    background-color: $background-light-gray;
+    border-radius: 60px;
+    color: $text-color-light;
+    text-align: center;
+    font-weight: 700;
+    transition: all $transition-duration;
+    margin-top: 10px;
+  }
+}

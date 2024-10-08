@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 import picAbout1 from "../../pics/home-about1.jpg";
-import picAbout2 from '../../pics/home-about2.jpg';
-import picHelp1 from '../../pics/home_help1.jpg';
-import picHelp2 from '../../pics/home_help2.jpg';
-import picHelp3 from '../../pics/home_help3.jpg';
-import picHome from '../../pics/home_mission.jpg'
+import picAbout2 from "../../pics/home-about2.jpg";
+import picHelp1 from "../../pics/home_help1.jpg";
+import picHelp2 from "../../pics/home_help2.jpg";
+import picHelp3 from "../../pics/home_help3.jpg";
+import picHome from "../../pics/home_mission.jpg";
 
 import "./Home.scss";
 import { Link } from "react-router-dom";
@@ -55,49 +55,69 @@ export const Home = () => {
       </section>
 
       <section className="home__help">
-        <h2 className="home__help--header">
-          {t("home_help_header")}
-        </h2>
+        <h2 className="home__help--header">{t("home_help_header")}</h2>
 
-        <div className="home__help--block">
-          <h4 className="home__help--block--header">{t("home_help_block1_header")}</h4>
-
-          <img src={picHelp1} alt="" className="home__help--block--img" />
-
-          <p className="home__help--block--text">{t('home_help_block1_text')}</p>
-
-          <Link to='/trips' className="home__help--block--button">{t('home_help_block_try')}</Link>
+        <div className="home__help--pic">
+        <img src={picHelp1} alt={t("home_help_header")} className="home__help--pic1" />
+        <img src={picHelp2} alt={t("home_help_header")} className="home__help--pic2" />
+        <img src={picHelp3} alt={t("home_help_header")} className="home__help--pic3" />
         </div>
 
-        <div className="home__help--block">
-          <h4 className="home__help--block--header">{t("home_help_block2_header")}</h4>
+        <div className="home__help--container">
+          <div className="home__help--container--block help_block1">
+            <h4 className="home__help--container--block--header">
+              {t("home_help_block1_header")}
+            </h4>
 
-          <img src={picHelp2} alt="" className="home__help--block--img" />
+            <p className="home__help--container--block--text">
+              {t("home_help_block1_text")}
+            </p>
 
-          <p className="home__help--block--text">{t('home_help_block2_text')}</p>
+            <Link to="/trips" className="home__help--container--block--button">
+              {t("home_help_block_try")}
+            </Link>
+          </div>
 
-          <Link to='/trips' className="home__help--block--button">{t('home_help_block_try')}</Link>
-        </div>
+          <div className="home__help--container--block help_block2">
+            <h4 className="home__help--container--block--header">
+              {t("home_help_block2_header")}
+            </h4>
 
-        <div className="home__help--block">
-          <h4 className="home__help--block--header">{t("home_help_block3_header")}</h4>
+            <p className="home__help--container--block--text">
+              {t("home_help_block2_text")}
+            </p>
 
-          <img src={picHelp3} alt="" className="home__help--block--img" />
+            <Link to="/trips" className="home__help--container--block--button">
+              {t("home_help_block_try")}
+            </Link>
+          </div>
 
-          <p className="home__help--block--text">{t('home_help_block3_text')}</p>
+          <div className="home__help--container--block help_block3">
+            <h4 className="home__help--container--block--header">
+              {t("home_help_block3_header")}
+            </h4>
 
-          <Link to='/trips' className="home__help--block--button">{t('home_help_block_try')}</Link>
+            <p className="home__help--container--block--text">
+              {t("home_help_block3_text")}
+            </p>
+
+            <Link to="/trips" className="home__help--container--block--button">
+              {t("home_help_block_try")}
+            </Link>
+          </div>
         </div>
       </section>
 
       <section className="home__mission">
-        <h2 className="home__mission--header">{t('home_mission_header')}</h2>
+        <h2 className="home__mission--header">{t("home_mission_header")}</h2>
 
-        <p className="home__mission--text">{t('home_mission_text1')}</p>
+        <p className="home__mission--text">{t("home_mission_text1")}</p>
 
-        <p className="home__mission--text">{t('home_mission_text2')}</p>
+        <p className="home__mission--text">{t("home_mission_text2")}</p>
 
-        <Link to='/trips' className="home__help--block--button try-button">{t('home_help_block_try')}</Link>
+        <Link to="/trips" className="home__help--container--block--button try-button">
+          {t("home_help_block_try")}
+        </Link>
 
         <img src={picHome} alt="" className="home__mission--pic" />
       </section>
