@@ -12,6 +12,7 @@ import com.example.tripsters.model.User;
 import com.example.tripsters.repository.TripRepository;
 import com.example.tripsters.repository.UserRepository;
 import com.example.tripsters.service.TripService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -109,6 +110,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    @Transactional
     public TripResponseDto leaveTrip(Long tripId) {
         User authenticatedUser = getAuthenticatedUser();
         Trip trip = tripRepository.findById(tripId)
