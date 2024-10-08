@@ -4,6 +4,8 @@ import com.example.tripsters.dto.chatmessage.CreateMessageRequestDto;
 import com.example.tripsters.dto.chatmessage.MessageResponseDto;
 import com.example.tripsters.dto.chatmessage.UpdateMessageDto;
 
+import java.util.List;
+
 public interface ChatMessageService {
     MessageResponseDto createMessage(CreateMessageRequestDto requestDto);
 
@@ -11,7 +13,7 @@ public interface ChatMessageService {
 
     MessageResponseDto getMeesageById(Long messageId);
 
-    MessageResponseDto getAllMessageInChat(Long chatId);
+    List<MessageResponseDto> getAllMessageInTrip(Long tripId);
 
     void deleteMessage(Long messageId);
 }

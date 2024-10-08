@@ -31,6 +31,6 @@ public class ChatMessage {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "chat_id", nullable = false)
-    private Chat chat;
+    @JoinColumn(name = "trip_id", nullable = false)
+    private Trip trip;
 }

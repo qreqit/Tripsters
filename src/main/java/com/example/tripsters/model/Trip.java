@@ -54,9 +54,8 @@ public class Trip {
     @JoinColumn(name = "map_id")
     private Map map;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "chat_id")
-    private Chat chat;
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ChatMessage> chatMessages = new HashSet<>();
 
     @Column(name = "owner_id", nullable = false)
     private Long ownerId;
