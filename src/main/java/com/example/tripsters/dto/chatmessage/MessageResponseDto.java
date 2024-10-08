@@ -13,5 +13,5 @@ public class MessageResponseDto {
     @NotNull
     private Long userId;
     @NotNull
-    private Long chatId;
+    private Long tripId;
 }

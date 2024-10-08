@@ -4,17 +4,6 @@ databaseChangeLog:
       author: qreqit
       changes:
         - createTable:
-            tableName: chats
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-
-        - createTable:
             tableName: chat_messages
             columns:
               - column:
@@ -41,7 +30,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: chat_id
+                  name: trip_id
                   type: BIGINT
                   constraints:
                     nullable: false
@@ -53,7 +42,7 @@ databaseChangeLog:
             referencedColumnNames: id
         - addForeignKeyConstraint:
             baseTableName: chat_messages
-            baseColumnNames: chat_id
-            constraintName: fk_chat_messages_chat
-            referencedTableName: chats
+            baseColumnNames: trip_id
+            constraintName: fk_chat_messages_trip
+            referencedTableName: trips
             referencedColumnNames: id

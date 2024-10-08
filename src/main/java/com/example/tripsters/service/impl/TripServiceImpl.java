@@ -6,7 +6,6 @@ import com.example.tripsters.dto.trip.UpdateTripRequestDto;
 import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.TripMapper;
-import com.example.tripsters.model.Chat;
 import com.example.tripsters.model.Map;
 import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
@@ -47,11 +46,9 @@ public class TripServiceImpl implements TripService {
     public TripResponseDto createTrip(CreateTripRequestDto requestDto) {
         Trip trip = tripMapper.toModel(requestDto);
         User authenticatedUser = getAuthenticatedUser();
-        Chat tripChat = new Chat();
         Map tripMap = new Map();
 
         trip.setCreatedAt(LocalDateTime.now());
-        trip.setChat(tripChat);
         trip.setMap(tripMap);
         trip.setOwnerId(authenticatedUser.getId());
 
