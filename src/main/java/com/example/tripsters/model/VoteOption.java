@@ -28,9 +28,8 @@ public class VoteOption {
     private String optionText;
     @Column(nullable = false)
     private double voteCount;
-//    @ManyToMany
-//    private Set<User> votedUsers = new HashSet<>();
-
+    @ManyToMany
+   private Set<User> votedUsers = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "vote_id", nullable = false)
     private Vote vote;

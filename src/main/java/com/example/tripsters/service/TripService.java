@@ -13,9 +13,9 @@ public interface TripService {
 
     TripResponseDto addUserToTrip(Long tripId, Long userId);
 
-     TripResponseDto leaveTrip(Long tripId) ;
+    TripResponseDto leaveTrip(Long tripId);
 
-     List<TripResponseDto> getAllTripsForCurrentUser();
+    List<TripResponseDto> getAllTripsForCurrentUser();
 
     void deleteTripById(Long id);
 }

@@ -5,7 +5,12 @@ import com.example.tripsters.dto.vote.VoteOptionResponseDto;
 import com.example.tripsters.dto.vote.VoteResponseDto;
 import com.example.tripsters.service.VoteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -31,7 +36,9 @@ public class VoteController {
     }
 
     @PostMapping("/{voteId}/options/{voteOptionId}/vote")
-    public VoteOptionResponseDto voteForOption(@PathVariable Long voteId, @PathVariable Long voteOptionId) {
+    public VoteOptionResponseDto voteForOption(
+            @PathVariable Long voteId,
+            @PathVariable Long voteOptionId) {
         return voteService.voteForOption(voteId, voteOptionId);
     }
 }
