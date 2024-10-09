@@ -1,6 +1,5 @@
 package com.example.tripsters.repository;
 
-import com.example.tripsters.dto.trip.CreateTripRequestDto;
 import com.example.tripsters.model.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

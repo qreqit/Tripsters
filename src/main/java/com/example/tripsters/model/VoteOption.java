@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -25,7 +24,6 @@ public class VoteOption {
     private String optionText;
     @Column(nullable = false)
     private double voteCount;
-
     @ManyToOne
     @JoinColumn(name = "vote_id", nullable = false)
     private Vote vote;

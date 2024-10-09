@@ -119,7 +119,7 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public List<FriendShipResponseDto> getAllFriendShips() {
-        List<FriendShip>friendShips = friendShipRepository.findAll();
+        List<FriendShip> friendShips = friendShipRepository.findAll();
         return friendShips.stream()
                 .map(friendShipMapper::toDto)
                 .toList();
