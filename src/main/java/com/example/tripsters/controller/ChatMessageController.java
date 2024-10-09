@@ -24,31 +24,36 @@ public class ChatMessageController {
     private final ChatMessageService chatMessageService;
 
     @PostMapping
-    public ResponseEntity<MessageResponseDto> createMessage(@RequestBody CreateMessageRequestDto requestDto) {
+    public ResponseEntity<MessageResponseDto> createMessage(
+            @RequestBody CreateMessageRequestDto requestDto) {
         MessageResponseDto responseDto = chatMessageService.createMessage(requestDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PutMapping
-    public ResponseEntity<MessageResponseDto> updateMessage(@RequestBody UpdateMessageDto messageDto) {
+    public ResponseEntity<MessageResponseDto> updateMessage(
+            @RequestBody UpdateMessageDto messageDto) {
         MessageResponseDto responseDto = chatMessageService.updateMessage(messageDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> getMessageById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponseDto> getMessageById(
+            @PathVariable Long id) {
         MessageResponseDto responseDto = chatMessageService.getMeesageById(id);
         return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/trip/{tripId}")
-    public ResponseEntity<List<MessageResponseDto>> getAllMessagesInTrip(@PathVariable Long tripId) {
+    public ResponseEntity<List<MessageResponseDto>> getAllMessagesInTrip(
+            @PathVariable Long tripId) {
         List<MessageResponseDto> responseDtos = chatMessageService.getAllMessageInTrip(tripId);
         return ResponseEntity.ok(responseDtos);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMessage(
+            @PathVariable Long id) {
         chatMessageService.deleteMessage(id);
         return ResponseEntity.noContent().build();
     }

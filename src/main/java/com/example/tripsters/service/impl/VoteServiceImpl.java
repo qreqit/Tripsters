@@ -1,6 +1,5 @@
 package com.example.tripsters.service.impl;
 
-import com.example.tripsters.dto.vote.CreateVoteOptionRequestDto;
 import com.example.tripsters.dto.vote.CreateVoteRequestDto;
 import com.example.tripsters.dto.vote.VoteOptionResponseDto;
 import com.example.tripsters.dto.vote.VoteResponseDto;
@@ -40,19 +39,23 @@ public class VoteServiceImpl implements VoteService {
     private final UserRepository userRepository;
 
     private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
         String authenticatedUserEmail = authentication.getName();
 
         return userRepository.findByEmail(authenticatedUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Authenticated user not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
+                        + "user not found"));
     }
 
     private void checkUserInTrip(Long tripId, User user) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip not "
+                        + "found with id: " + tripId));
 
         if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
-            throw new UnauthorizedException("User is not part of the trip");
+            throw new UnauthorizedException("User is "
+                    + "not part of the trip");
         }
     }
 
@@ -61,7 +64,8 @@ public class VoteServiceImpl implements VoteService {
     public VoteResponseDto createVote(CreateVoteRequestDto requestDto) {
         User authenticatedUser = getAuthenticatedUser();
         Trip trip = tripRepository.findById(requestDto.getTripId())
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + requestDto.getTripId()));
+                .orElseThrow(() -> new EntityNotFoundException("Trip not "
+                        + "found with id: " + requestDto.getTripId()));
 
         checkUserInTrip(requestDto.getTripId(), authenticatedUser);
 
@@ -70,7 +74,8 @@ public class VoteServiceImpl implements VoteService {
         vote.setTrip(trip);
         vote.setUsers(new HashSet<>(trip.getUsers()));
 
-        Set<VoteOption> voteOptions = requestDto.getVoteOptions().stream()
+        Set<VoteOption> voteOptions = requestDto.getVoteOptions()
+                .stream()
                 .map(optionText -> {
                     VoteOption voteOption = new VoteOption();
                     voteOption.setOptionText(optionText);
@@ -90,7 +95,8 @@ public class VoteServiceImpl implements VoteService {
     public List<VoteOptionResponseDto> getVoteOptions(Long voteId) {
         User authenticatedUser = getAuthenticatedUser();
         Vote vote = voteRepository.findById(voteId)
-                .orElseThrow(() -> new EntityNotFoundException("Vote not found by id: " + voteId));
+                .orElseThrow(() -> new EntityNotFoundException("Vote not "
+                        + "found by id: " + voteId));
 
         return vote.getVoteOptions().stream()
                 .map(voteOptionMapper::toDto)
@@ -100,7 +106,8 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public VoteResponseDto getVote(Long voteId) {
         Vote vote = voteRepository.findById(voteId)
-                .orElseThrow(() -> new EntityNotFoundException("Vote not found with id: " + voteId));
+                .orElseThrow(() -> new EntityNotFoundException("Vote not "
+                        + "found with id: " + voteId));
         return voteMapper.toDto(vote);
     }
 
@@ -109,12 +116,14 @@ public class VoteServiceImpl implements VoteService {
     public VoteOptionResponseDto voteForOption(Long voteId, Long voteOptionId) {
         User authenticatedUser = getAuthenticatedUser();
         Vote vote = voteRepository.findById(voteId)
-                .orElseThrow(() -> new EntityNotFoundException("Vote not found with id: " + voteId));
+                .orElseThrow(() -> new EntityNotFoundException("Vote not "
+                        + "found with id: " + voteId));
 
         checkUserInTrip(vote.getTrip().getId(), authenticatedUser);
 
         VoteOption voteOption = voteOptionRepository.findById(voteOptionId)
-                .orElseThrow(() -> new EntityNotFoundException("Vote option not found with id: " + voteOptionId));
+                .orElseThrow(() -> new EntityNotFoundException("Vote option \n"
+                        + "ot found with id: " + voteOptionId));
 
         voteOption.setVoteCount(voteOption.getVoteCount() + 1);
         voteOptionRepository.save(voteOption);
