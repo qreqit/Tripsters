@@ -1,0 +1,119 @@
+@import '../../../mixins';
+@import '../../../variables';
+
+.createTrip {
+  padding-top: 20px;
+  background-color: #ededed;
+  @include page-grid;
+  row-gap: 20px;
+  justify-content: center;
+  padding-bottom: 80px;
+
+  &__button {
+    grid-column: 5 / 9;
+    font-size: 30px;
+    text-decoration: none;
+    padding: 15px 70px;
+    background-color: #36453B;
+    border-radius: 60px;
+    color: #F5F9E9;
+    text-align: center;
+    font-weight: 700;
+    transition: all 300ms;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__header {
+    grid-column: 2/-2;
+    font-size: 35px;
+    color: $text-color-dark;
+    margin-bottom: 0;
+  }
+
+  &__text {
+    grid-column: 2/-2;
+    font-size: 25px;
+    color: $text-color-dark;
+  }
+
+  &__block {
+    grid-column: 2/-2;
+    border: 2px solid $text-color-dark;
+    padding: 20px;
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    &--label {
+      font-size: 19px;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: $text-color-dark;
+    }
+
+    input {
+      width: 98% !important;
+      height: 30px;
+      outline: none;
+      border: 1px solid $text-color-dark;
+      border-radius: 5px;
+      padding-left: 10px;
+      font-size: 18px;
+
+      &:focus {
+        border: 1px solid green;
+      }
+    }
+
+    .suggestions {
+      background-color: $background-color;
+      width: 99.5%;
+    }
+
+    .additional {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      
+      
+      &-search {
+        width: 47%;
+      }
+
+      &-block {
+        position: relative;
+        top: -20px;
+        padding: 10px;
+        border-radius: 10px;
+        height: 200px;
+        width: 47%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: scroll;
+
+        &-element {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          &--text {
+            margin: 0;
+            color: $text-color-dark;
+          }
+
+          &--button {
+            position: relative;
+            right: 10px;
+            margin: 0;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
     finishPoint,
     members,
     aditionalPoints,
-    link,
+    // link,
     owner,
     status,
   } = trip;
@@ -25,7 +25,7 @@ export const TripInfo: React.FC<Params> = ({ trip }) => {
   const navigate = useNavigate();
 
   const goToTrip = () => {
-    navigate(link);
+    navigate('../tripDetails');
   };
 
   return (
