@@ -40,7 +40,8 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     private void checkUserInTrip(Long tripId, User user) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip "
+                        + "not found with id: " + tripId));
 
         if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
             throw new UnauthorizedException("User is not part of the trip");
@@ -53,7 +54,8 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         User authenticatedUser = getAuthenticatedUser();
 
         Trip trip = tripRepository.findById(requestDto.getTripId())
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found with id: " + requestDto.getTripId()));
+                .orElseThrow(() -> new IllegalArgumentException("Trip "
+                        + "not found with id: " + requestDto.getTripId()));
 
         checkUserInTrip(requestDto.getTripId(), authenticatedUser);
 
@@ -67,37 +69,43 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-public MessageResponseDto updateMessage(UpdateMessageDto messageDto) {
-    User authenticatedUser = getAuthenticatedUser();
-    ChatMessage chatMessage = chatMessageRepository.findById(messageDto.getId())
-            .orElseThrow(() -> new EntityNotFoundException("Message not found with id: " + messageDto.getId()));
+    public MessageResponseDto updateMessage(UpdateMessageDto messageDto) {
+        User authenticatedUser = getAuthenticatedUser();
+        ChatMessage chatMessage = chatMessageRepository.findById(messageDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Message "
+                        + "not found with id: " + messageDto.getId()));
 
-    checkUserInTrip(chatMessage.getTrip().getId(), authenticatedUser);
+        checkUserInTrip(chatMessage.getTrip().getId(), authenticatedUser);
 
-    if (!chatMessage.getUser().getId().equals(authenticatedUser.getId())) {
-        throw new UnauthorizedException("You are not the author of this message");
+        if (!chatMessage.getUser().getId()
+                .equals(authenticatedUser.getId())) {
+            throw new UnauthorizedException("You are "
+                    + "not the author of this message");
+        }
+
+        chatMessage.setMessage(messageDto.getMessage());
+        chatMessageRepository.save(chatMessage);
+
+        return chatMessageMapper.toDto(chatMessage);
     }
-
-    chatMessage.setMessage(messageDto.getMessage());
-    chatMessageRepository.save(chatMessage);
-
-    return chatMessageMapper.toDto(chatMessage);
-}
 
     @Override
     public MessageResponseDto getMeesageById(Long messageId) {
         ChatMessage chatMessage = chatMessageRepository.findById(messageId)
-                .orElseThrow(() -> new EntityNotFoundException("Message not found with id: " + messageId));
+                .orElseThrow(() -> new EntityNotFoundException("Message "
+                        + "not found with id: " + messageId));
         return chatMessageMapper.toDto(chatMessage);
     }
 
     @Override
     public List<MessageResponseDto> getAllMessageInTrip(Long tripId) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip "
+                        + "not found with id: " + tripId));
 
         List<ChatMessage> chatMessages = chatMessageRepository.findByTripId(tripId)
-                .orElseThrow(() -> new IllegalArgumentException("Chat messages not found by trip id: " + trip));
+                .orElseThrow(() -> new IllegalArgumentException("Chat "
+                        + "messages not found by trip id: " + trip));
 
         return chatMessages.stream()
                 .map(chatMessageMapper::toDto)
@@ -108,14 +116,16 @@ public MessageResponseDto updateMessage(UpdateMessageDto messageDto) {
     public void deleteMessage(Long messageId) {
         User authenticatedUser = getAuthenticatedUser();
         ChatMessage chatMessage = chatMessageRepository.findById(messageId)
-                .orElseThrow(() -> new EntityNotFoundException("Message not found with id: " + messageId));
+                .orElseThrow(() -> new EntityNotFoundException("Message "
+                        + "not found with id: " + messageId));
 
         Trip trip = chatMessage.getTrip();
         User messageOwner = chatMessage.getUser();
         User tripOwner = userRepository.findById(trip.getOwnerId())
                 .orElseThrow(() -> new IllegalArgumentException("Owner of trip not found"));
 
-        if (!authenticatedUser.getId().equals(messageOwner.getId()) && !authenticatedUser.getId().equals(tripOwner.getId())) {
+        if (!authenticatedUser.getId().equals(messageOwner.getId())
+                && !authenticatedUser.getId().equals(tripOwner.getId())) {
             throw new UnauthorizedException("You are not authorized to delete this message");
         }
 

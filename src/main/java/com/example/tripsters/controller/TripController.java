@@ -22,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TripController {
     private final TripService tripService;
+
     @PostMapping
     public TripResponseDto createTrip(@RequestBody @Valid CreateTripRequestDto requestDto) {
         return tripService.createTrip(requestDto);
@@ -33,7 +34,7 @@ public class TripController {
     }
 
     @PostMapping("/{tripId}/users/{userId}")
-    public  TripResponseDto addUserToTrip(@PathVariable Long tripId, @PathVariable Long userId){
+    public TripResponseDto addUserToTrip(@PathVariable Long tripId, @PathVariable Long userId) {
         return tripService.addUserToTrip(tripId, userId);
     }
 
