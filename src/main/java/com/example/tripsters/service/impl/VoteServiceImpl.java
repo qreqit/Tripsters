@@ -104,6 +104,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    @Transactional
     public VoteResponseDto getVote(Long voteId) {
         Vote vote = voteRepository.findById(voteId)
                 .orElseThrow(() -> new EntityNotFoundException("Vote not "
@@ -121,12 +122,19 @@ public class VoteServiceImpl implements VoteService {
 
         checkUserInTrip(vote.getTrip().getId(), authenticatedUser);
 
+        if (vote.getVotedUsers().contains(authenticatedUser)) {
+            throw new UnauthorizedException("User has already voted in this vote");
+        }
+
         VoteOption voteOption = voteOptionRepository.findById(voteOptionId)
-                .orElseThrow(() -> new EntityNotFoundException("Vote option \n"
-                        + "ot found with id: " + voteOptionId));
+                .orElseThrow(() -> new EntityNotFoundException("Vote option "
+                        + "not found with id: " + voteOptionId));
 
         voteOption.setVoteCount(voteOption.getVoteCount() + 1);
         voteOptionRepository.save(voteOption);
+
+        vote.getVotedUsers().add(authenticatedUser); // Mark user as having voted
+        voteRepository.save(vote);
 
         return voteOptionMapper.toDto(voteOption);
     }

@@ -11,6 +11,4 @@ public class VoteOptionResponseDto {
     private Long id;
     @NotBlank
     private String optionText;
-    @Min(0)
-    private double voteCount;
 }
