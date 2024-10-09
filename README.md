@@ -1,3 +1,3 @@
 # Models and relations
 
-![Book-Store](./Tripsters.png)
+![Tripsters Scheme](![Tripsters-Scheme.png](Tripsters-Scheme.png))
