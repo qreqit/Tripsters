@@ -7,7 +7,13 @@ import com.example.tripsters.service.MapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/maps")
@@ -16,7 +22,8 @@ public class MapController {
     private final MapService mapService;
 
     @PostMapping("/{tripId}/points")
-    public ResponseEntity<MapPointResponseDto> createMapPoint(@RequestBody CreateMapPointRequestDto requestDto, @PathVariable Long tripId) {
+    public ResponseEntity<MapPointResponseDto> createMapPoint(
+            @RequestBody CreateMapPointRequestDto requestDto, @PathVariable Long tripId) {
         MapPointResponseDto responseDto = mapService.createMapPoint(requestDto, tripId);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -34,7 +41,9 @@ public class MapController {
     }
 
     @DeleteMapping("/{tripId}/points/{mapPointId}")
-    public ResponseEntity<Void> deleteMapPoint(@PathVariable Long mapPointId,@PathVariable Long tripId) {
+    public ResponseEntity<Void> deleteMapPoint(
+            @PathVariable Long mapPointId,
+            @PathVariable Long tripId) {
         mapService.deleteMapPoint(mapPointId, tripId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

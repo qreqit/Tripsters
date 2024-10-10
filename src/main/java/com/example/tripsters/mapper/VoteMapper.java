@@ -20,13 +20,15 @@ public abstract class VoteMapper {
     protected VoteOptionMapper voteOptionMapper;
 
     @Mapping(source = "trip.id", target = "tripId")
-    @Mapping(source = "voteOptions", target = "voteOptions", qualifiedByName = "mapVoteOptions")
+    @Mapping(source = "voteOptions",
+            target = "voteOptions", qualifiedByName = "mapVoteOptions")
     public abstract VoteResponseDto toDto(Vote vote);
 
     @Named("mapVoteOptions")
     protected List<String> mapVoteOptions(Set<VoteOption> voteOptions) {
         return voteOptions.stream()
-                .map(voteOption -> voteOptionMapper.toDto(voteOption).getOptionText())
+                .map(voteOption -> voteOptionMapper
+                        .toDto(voteOption).getOptionText())
                 .collect(Collectors.toList());
     }
 }
