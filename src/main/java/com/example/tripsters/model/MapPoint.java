@@ -22,9 +22,9 @@ public class MapPoint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private double latitude;
+    private Double latitude;
     @Column(nullable = false)
-    private double longitude;
+    private Double longitude;
     @Column
     private String description;
 
