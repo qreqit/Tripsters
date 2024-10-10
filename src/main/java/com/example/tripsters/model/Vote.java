@@ -41,7 +41,8 @@ public class Vote {
     @ManyToMany
     private Set<User> votedUsers = new HashSet<>();
 
-    @OneToMany(mappedBy = "vote", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "vote", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<VoteOption> voteOptions = new HashSet<>();
 
     @ManyToOne

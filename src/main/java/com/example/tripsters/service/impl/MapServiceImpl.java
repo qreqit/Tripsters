@@ -49,19 +49,23 @@ public class MapServiceImpl implements MapService {
                 .orElseThrow(() -> new EntityNotFoundException("Trip not "
                         + "found with id: " + tripId));
 
-        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
+        if (trip.getUsers().stream().noneMatch(u -> u.getEmail()
+                .equals(user.getEmail()))) {
             throw new UnauthorizedException("User is "
                     + "not part of the trip");
         }
     }
 
     @Override
-    public MapPointResponseDto createMapPoint(CreateMapPointRequestDto requestDto, Long tripId) {
+    public MapPointResponseDto createMapPoint(
+            CreateMapPointRequestDto requestDto,
+            Long tripId) {
         User authenticatedUser = getAuthenticatedUser();
         checkUserInTrip(tripId, authenticatedUser);
 
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip "
+                        + "not found with id: " + tripId));
 
         MapPoint mapPoint = mapPointMapper.toModel(requestDto);
         mapPoint.setCreatedAt(LocalDateTime.now());
@@ -74,7 +78,8 @@ public class MapServiceImpl implements MapService {
     @Override
     public MapPointResponseDto getMapPointById(Long mapPointId) {
         MapPoint mapPoint = mapPointRepository.findById(mapPointId)
-                .orElseThrow(() -> new  EntityNotFoundException("Map point not foubd with id: " + mapPointId));
+                .orElseThrow(() -> new EntityNotFoundException("Map "
+                        + "point not foubd with id: " + mapPointId));
 
         return mapPointMapper.toDto(mapPoint);
     }
@@ -83,7 +88,8 @@ public class MapServiceImpl implements MapService {
     @Override
     public MapResponseDto getAllMapPointInTrip(Long tripId) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip "
+                        + "not found with id: " + tripId));
         Map map = trip.getMap();
         return mapMapper.toDto(map);
     }
@@ -93,7 +99,8 @@ public class MapServiceImpl implements MapService {
         User authenticatedUser = getAuthenticatedUser();
         checkUserInTrip(tripId, authenticatedUser);
         MapPoint mapPoint = mapPointRepository.findById(mapPointId)
-                .orElseThrow(() -> new EntityNotFoundException("Map point not found with id: " + mapPointId));
-                mapPointRepository.delete(mapPoint);
+                .orElseThrow(() -> new EntityNotFoundException("Map "
+                        + "point not found with id: " + mapPointId));
+        mapPointRepository.delete(mapPoint);
     }
 }
