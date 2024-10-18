@@ -38,27 +38,6 @@ public class VoteServiceImpl implements VoteService {
     private final TripRepository tripRepository;
     private final UserRepository userRepository;
 
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
-        String authenticatedUserEmail = authentication.getName();
-
-        return userRepository.findByEmail(authenticatedUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
-                        + "user not found"));
-    }
-
-    private void checkUserInTrip(Long tripId, User user) {
-        Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not "
-                        + "found with id: " + tripId));
-
-        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
-            throw new UnauthorizedException("User is "
-                    + "not part of the trip");
-        }
-    }
-
     @Override
     @Transactional
     public VoteResponseDto createVote(CreateVoteRequestDto requestDto) {
@@ -137,5 +116,26 @@ public class VoteServiceImpl implements VoteService {
         voteRepository.save(vote);
 
         return voteOptionMapper.toDto(voteOption);
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
+                        + "user not found"));
+    }
+
+    private void checkUserInTrip(Long tripId, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not "
+                        + "found with id: " + tripId));
+
+        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
+            throw new UnauthorizedException("User is "
+                    + "not part of the trip");
+        }
     }
 }

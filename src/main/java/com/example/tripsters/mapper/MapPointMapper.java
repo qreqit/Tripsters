@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(config = MapperConfig.class)
 public interface MapPointMapper {
     @Mapping(source = "map.id", target = "mapId")
+    @Mapping(source = "type", target = "pointType")
     MapPointResponseDto toDto(MapPoint mapPoint);
 
     MapPoint toModel(CreateMapPointRequestDto requestDto);

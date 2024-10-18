@@ -6,6 +6,7 @@ import com.example.tripsters.dto.friendship.UpdateFriendShipStatusDto;
 import com.example.tripsters.service.FriendShipService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class FriendShipController {
         return friendShipService.findFriendShipByFriendEmail(friendEmail);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<FriendShipResponseDto> getAllFriendShips() {
         return friendShipService.getAllFriendShips();

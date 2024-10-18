@@ -38,12 +38,6 @@ public class Trip {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
-    @Column(nullable = false)
-    private String startAdress;
-
-    @Column(nullable = false)
-    private String finishAdress;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class CreateMapPointRequestDto {
     @NotBlank
-    private Double latitude;
-    @NotBlank
-    private Double longitude;
+    private String pointName;
     private String description;
+    @NotBlank
+    private String pointType;
 }

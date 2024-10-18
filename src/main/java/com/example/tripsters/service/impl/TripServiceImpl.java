@@ -29,23 +29,6 @@ public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
 
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder
-                .getContext().getAuthentication();
-        String authenticatedUserEmail = authentication.getName();
-
-        return userRepository.findByEmail(authenticatedUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
-                        + "user not found"));
-    }
-
-    private void checkOwnership(Trip trip, User user) {
-        if (!trip.getOwnerId().equals(user.getId())) {
-            throw new UnauthorizedException("You are not "
-                    + "the owner of this trip");
-        }
-    }
-
     @Override
     public TripResponseDto createTrip(CreateTripRequestDto requestDto) {
         Trip trip = tripMapper.toModel(requestDto);
@@ -75,8 +58,6 @@ public class TripServiceImpl implements TripService {
         trip.setDestination(requestDto.getDestination());
         trip.setStartDate(LocalDateTime.parse(requestDto.getStartDate()));
         trip.setEndDate(LocalDateTime.parse(requestDto.getEndDate()));
-        trip.setStartAdress(requestDto.getStartAdress());
-        trip.setFinishAdress(requestDto.getFinishAdress());
 
         tripRepository.save(trip);
 
@@ -150,5 +131,22 @@ public class TripServiceImpl implements TripService {
         checkOwnership(trip, authenticatedUser);
 
         tripRepository.delete(trip);
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder
+                .getContext().getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
+                        + "user not found"));
+    }
+
+    private void checkOwnership(Trip trip, User user) {
+        if (!trip.getOwnerId().equals(user.getId())) {
+            throw new UnauthorizedException("You are not "
+                    + "the owner of this trip");
+        }
     }
 }

@@ -30,24 +30,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatMessageMapper chatMessageMapper;
 
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String authenticatedUserEmail = authentication.getName();
-
-        return userRepository.findByEmail(authenticatedUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Authenticated user not found"));
-    }
-
-    private void checkUserInTrip(Long tripId, User user) {
-        Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip "
-                        + "not found with id: " + tripId));
-
-        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
-            throw new UnauthorizedException("User is not part of the trip");
-        }
-    }
-
     @Override
     @Transactional
     public MessageResponseDto createMessage(CreateMessageRequestDto requestDto) {
@@ -130,5 +112,23 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         }
 
         chatMessageRepository.deleteById(messageId);
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated user not found"));
+    }
+
+    private void checkUserInTrip(Long tripId, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip "
+                        + "not found with id: " + tripId));
+
+        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
+            throw new UnauthorizedException("User is not part of the trip");
+        }
     }
 }

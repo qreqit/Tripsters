@@ -14,8 +14,4 @@ public class UpdateTripRequestDto {
     private String startDate;
     @NotBlank
     private String endDate;
-    @NotBlank
-    private String startAdress;
-    @NotBlank
-    private String finishAdress;
 }
