@@ -2,6 +2,8 @@ package com.example.tripsters.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,9 +24,7 @@ public class MapPoint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Double latitude;
-    @Column(nullable = false)
-    private Double longitude;
+    private String pointName;
     @Column
     private String description;
 
@@ -34,4 +34,14 @@ public class MapPoint {
     @ManyToOne
     @JoinColumn(name = "map_id", nullable = false)
     private Map map;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PointType type;
+
+    public enum PointType {
+        START,
+        END,
+        INTERMEDIATE
+    }
 }

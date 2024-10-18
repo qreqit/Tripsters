@@ -34,46 +34,36 @@ public class MapServiceImpl implements MapService {
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
 
-    private User getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder
-                .getContext().getAuthentication();
-        String authenticatedUserEmail = authentication.getName();
-
-        return userRepository.findByEmail(authenticatedUserEmail)
-                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
-                        + "user not found"));
-    }
-
-    private void checkUserInTrip(Long tripId, User user) {
-        Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not "
-                        + "found with id: " + tripId));
-
-        if (trip.getUsers().stream().noneMatch(u -> u.getEmail()
-                .equals(user.getEmail()))) {
-            throw new UnauthorizedException("User is "
-                    + "not part of the trip");
-        }
-    }
-
     @Override
-    public MapPointResponseDto createMapPoint(
-            CreateMapPointRequestDto requestDto,
-            Long tripId) {
+    @Transactional
+    public MapPointResponseDto createMapPoint(CreateMapPointRequestDto requestDto, Long tripId) {
         User authenticatedUser = getAuthenticatedUser();
         checkUserInTrip(tripId, authenticatedUser);
 
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip "
-                        + "not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
 
-        MapPoint mapPoint = mapPointMapper.toModel(requestDto);
-        mapPoint.setCreatedAt(LocalDateTime.now());
-        mapPoint.setMap(trip.getMap());
-        mapPointRepository.save(mapPoint);
+        Map map = trip.getMap();
+        if (requestDto.getPointType() != null) {
+            MapPoint.PointType pointType = MapPoint.PointType.valueOf(requestDto.getPointType().toUpperCase());
+            if (pointType == MapPoint.PointType.START && map.getStartPoint() != null) {
+                mapPointRepository.delete(map.getStartPoint());
+                map.setStartPoint(null);
+            }
+            if (pointType == MapPoint.PointType.END && map.getEndPoint() != null) {
+                mapPointRepository.delete(map.getEndPoint());
+                map.setEndPoint(null);
+            }
+        }
 
-        return mapPointMapper.toDto(mapPoint);
-    }
+    MapPoint mapPoint = mapPointMapper.toModel(requestDto);
+    mapPoint.setCreatedAt(LocalDateTime.now());
+    mapPoint.setMap(map);
+    checkPointType(requestDto.getPointType(), tripId, mapPoint);
+    mapPointRepository.save(mapPoint);
+
+    return mapPointMapper.toDto(mapPoint);
+}
 
     @Override
     public MapPointResponseDto getMapPointById(Long mapPointId) {
@@ -102,5 +92,52 @@ public class MapServiceImpl implements MapService {
                 .orElseThrow(() -> new EntityNotFoundException("Map "
                         + "point not found with id: " + mapPointId));
         mapPointRepository.delete(mapPoint);
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder
+                .getContext().getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
+                        + "user not found"));
+    }
+
+    private void checkUserInTrip(Long tripId, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not "
+                        + "found with id: " + tripId));
+
+        if (trip.getUsers().stream().noneMatch(u -> u.getEmail()
+                .equals(user.getEmail()))) {
+            throw new UnauthorizedException("User is "
+                    + "not part of the trip");
+        }
+    }
+
+    private void checkPointType(String pointType, Long tripId, MapPoint mapPoint) {
+        if (pointType == null) {
+            throw new EntityNotFoundException("Point type can not be null");
+        }
+
+        MapPoint.PointType actualType;
+        try {
+            actualType = MapPoint.PointType.valueOf(pointType.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid PointType: " + pointType);
+        }
+
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+
+        mapPoint.setType(actualType);
+        Map map = trip.getMap();
+
+        if (actualType.equals(MapPoint.PointType.START)) {
+            map.setStartPoint(mapPoint);
+        } else if (actualType.equals(MapPoint.PointType.END)) {
+            map.setEndPoint(mapPoint);
+        }
     }
 }

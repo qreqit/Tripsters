@@ -29,16 +29,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: start_adress
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: finish_adress
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
                   name: created_at
                   type: TIMESTAMP
                   constraints:
