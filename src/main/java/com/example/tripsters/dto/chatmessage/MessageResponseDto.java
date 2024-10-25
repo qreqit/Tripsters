@@ -14,4 +14,6 @@ public class MessageResponseDto {
     private Long userId;
     @NotNull
     private Long tripId;
+    @NotBlank
+    private String message;
 }

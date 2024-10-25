@@ -45,7 +45,7 @@ public class Vote {
             orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<VoteOption> voteOptions = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 }

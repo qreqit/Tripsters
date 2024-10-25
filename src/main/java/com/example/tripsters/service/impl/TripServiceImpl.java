@@ -30,6 +30,7 @@ public class TripServiceImpl implements TripService {
     private final TripMapper tripMapper;
 
     @Override
+    @Transactional
     public TripResponseDto createTrip(CreateTripRequestDto requestDto) {
         Trip trip = tripMapper.toModel(requestDto);
         User authenticatedUser = getAuthenticatedUser();
@@ -65,6 +66,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    @Transactional
     public TripResponseDto addUserToTrip(Long tripId, Long userId) {
         User authenticatedUser = getAuthenticatedUser();
         Trip trip = tripRepository.findById(tripId)

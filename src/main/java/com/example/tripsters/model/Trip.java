@@ -44,7 +44,7 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vote> votes = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "map_id")
     private Map map;
 
@@ -57,7 +57,7 @@ public class Trip {
     @Column
     private TripStatus status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "trips_users",
             joinColumns = @JoinColumn(name = "trip_id"),

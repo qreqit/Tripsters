@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 public interface ChatMessageMapper {
     @Mapping(source = "trip.id", target = "tripId")
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "message", target = "message")
     MessageResponseDto toDto(ChatMessage message);
 
     ChatMessage toModel(CreateMessageRequestDto requestDto);
