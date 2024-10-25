@@ -51,6 +51,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
+    @Transactional
     public MessageResponseDto updateMessage(UpdateMessageDto messageDto) {
         User authenticatedUser = getAuthenticatedUser();
         ChatMessage chatMessage = chatMessageRepository.findById(messageDto.getId())

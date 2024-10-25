@@ -11,5 +11,5 @@ public class VoteResponseDto {
     private Long id;
     @NotNull
     private Long tripId;
-    private List<String> voteOptions;
+    private List<VoteOptionResponseDto> voteOptions;
 }
