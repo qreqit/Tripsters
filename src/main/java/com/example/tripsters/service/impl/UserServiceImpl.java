@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -48,5 +49,13 @@ public class UserServiceImpl implements UserService {
         user.setCreatedAt(LocalDateTime.now());
         userRepository.save(user);
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public List<UserResponseDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                    .map(userMapper::toDto)
+                    .toList();
     }
 }
