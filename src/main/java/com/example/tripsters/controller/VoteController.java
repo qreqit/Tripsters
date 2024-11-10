@@ -5,6 +5,7 @@ import com.example.tripsters.dto.vote.VoteOptionResponseDto;
 import com.example.tripsters.dto.vote.VoteResponseDto;
 import com.example.tripsters.service.VoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/votes")
 @RequiredArgsConstructor
 public class VoteController {
