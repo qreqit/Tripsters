@@ -12,6 +12,7 @@ import com.example.tripsters.repository.UserRepository;
 import com.example.tripsters.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,12 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                     .map(userMapper::toDto)
                     .toList();
+    }
+
+    @Override
+    public UserResponseDto getCurrentUser(Authentication authentication) {
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new  EntityNotFoundException("User nor foud with email: " + authentication.getName()));
+        return userMapper.toDto(user);
     }
 }
