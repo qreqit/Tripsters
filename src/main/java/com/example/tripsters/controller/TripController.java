@@ -3,6 +3,7 @@ package com.example.tripsters.controller;
 import com.example.tripsters.dto.trip.CreateTripRequestDto;
 import com.example.tripsters.dto.trip.TripResponseDto;
 import com.example.tripsters.dto.trip.UpdateTripRequestDto;
+import com.example.tripsters.dto.user.UserResponseDto;
 import com.example.tripsters.service.TripService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,16 @@ public class TripController {
     @PostMapping("/{tripId}/users/{userId}")
     public TripResponseDto addUserToTrip(@PathVariable Long tripId, @PathVariable Long userId) {
         return tripService.addUserToTrip(tripId, userId);
+    }
+
+    @GetMapping("/owner/{tripId}")
+    public UserResponseDto getOwnerOfTrip(@PathVariable Long tripId) {
+        return tripService.getOwnerOfTrip(tripId);
+    }
+
+    @GetMapping("/users/all/{tripId}")
+    public List<UserResponseDto> getAllUsersInTrip(@PathVariable Long tripId) {
+        return tripService.getAllUsersInTrip(tripId);
     }
 
     @DeleteMapping("/leave/{tripId}")

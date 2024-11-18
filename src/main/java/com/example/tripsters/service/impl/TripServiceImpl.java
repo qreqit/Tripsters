@@ -3,9 +3,11 @@ package com.example.tripsters.service.impl;
 import com.example.tripsters.dto.trip.CreateTripRequestDto;
 import com.example.tripsters.dto.trip.TripResponseDto;
 import com.example.tripsters.dto.trip.UpdateTripRequestDto;
+import com.example.tripsters.dto.user.UserResponseDto;
 import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.TripMapper;
+import com.example.tripsters.mapper.UserMapper;
 import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
 import com.example.tripsters.repository.TripRepository;
@@ -27,6 +29,7 @@ public class TripServiceImpl implements TripService {
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional
@@ -136,6 +139,31 @@ public class TripServiceImpl implements TripService {
         tripRepository.delete(trip);
     }
 
+    @Override
+    @Transactional
+    public List<UserResponseDto> getAllUsersInTrip(Long tripId) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+        User user = getAuthenticatedUser();
+        checkUserInTrip(tripId, user);
+
+        return trip.getUsers().stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public UserResponseDto getOwnerOfTrip(Long tripId) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+        User user = getAuthenticatedUser();
+        checkUserInTrip(tripId, user);
+        User owner = userRepository.findById(trip.getOwnerId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + trip.getOwnerId()));
+        return userMapper.toDto(owner);
+    }
+
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder
                 .getContext().getAuthentication();
@@ -150,6 +178,17 @@ public class TripServiceImpl implements TripService {
         if (!trip.getOwnerId().equals(user.getId())) {
             throw new UnauthorizedException("You are not "
                     + "the owner of this trip");
+        }
+    }
+
+    private void checkUserInTrip(Long tripId, User user) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not "
+                        + "found with id: " + tripId));
+
+        if (trip.getUsers().stream().noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
+            throw new UnauthorizedException("User is "
+                    + "not part of the trip");
         }
     }
 }
