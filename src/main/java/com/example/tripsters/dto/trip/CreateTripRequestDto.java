@@ -1,8 +1,6 @@
 package com.example.tripsters.dto.trip;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.util.List;
 
@@ -18,7 +16,5 @@ public class CreateTripRequestDto {
     private String startPoint;
     @NotBlank
     private String endPoint;
-    @NotNull
-    @NotEmpty
     private List<String> additionalPoints;
 }
