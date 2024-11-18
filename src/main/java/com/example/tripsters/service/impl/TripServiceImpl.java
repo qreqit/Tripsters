@@ -6,7 +6,6 @@ import com.example.tripsters.dto.trip.UpdateTripRequestDto;
 import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.TripMapper;
-import com.example.tripsters.model.Map;
 import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
 import com.example.tripsters.repository.TripRepository;
@@ -34,10 +33,8 @@ public class TripServiceImpl implements TripService {
     public TripResponseDto createTrip(CreateTripRequestDto requestDto) {
         Trip trip = tripMapper.toModel(requestDto);
         User authenticatedUser = getAuthenticatedUser();
-        Map tripMap = new Map();
 
         trip.setCreatedAt(LocalDateTime.now());
-        trip.setMap(tripMap);
         trip.setOwnerId(authenticatedUser.getId());
 
         Set<User> listOfUsersInTrip = trip.getUsers();
@@ -59,6 +56,9 @@ public class TripServiceImpl implements TripService {
         trip.setDestination(requestDto.getDestination());
         trip.setStartDate(LocalDateTime.parse(requestDto.getStartDate()));
         trip.setEndDate(LocalDateTime.parse(requestDto.getEndDate()));
+        trip.setAdditionalpoints(requestDto.getAdditionalPoints());
+        trip.setStartPoint(requestDto.getStartPoint());
+        trip.setEndPoint(requestDto.getEndPoint());
 
         tripRepository.save(trip);
 
@@ -88,6 +88,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    @Transactional
     public List<TripResponseDto> getAllTripsForCurrentUser() {
         User authenticatedUser = getAuthenticatedUser();
         List<Trip> trips = tripRepository

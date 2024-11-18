@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class TripResponseDto {
     @NotNull
@@ -16,4 +18,9 @@ public class TripResponseDto {
     private String endDate;
     @NotBlank
     private String createdAt;
+    @NotBlank
+    private String startPoint;
+    @NotBlank
+    private String endPoint;
+    private List<String> additionalPoints;
 }
