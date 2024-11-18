@@ -12,6 +12,4 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/06-create-table-vote-and-table-vote-option.yaml
   - include:
-      file: db/changelog/changes/07-create-table-map-and-table-map-point.yaml
-  - include:
       file: db/changelog/changes/08-create-table-chat-and-chat-message.yaml

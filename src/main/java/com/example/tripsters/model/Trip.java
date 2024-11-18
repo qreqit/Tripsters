@@ -2,6 +2,7 @@ package com.example.tripsters.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -44,10 +47,6 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vote> votes = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "map_id")
-    private Map map;
-
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatMessage> chatMessages = new HashSet<>();
 
@@ -56,6 +55,16 @@ public class Trip {
 
     @Column
     private TripStatus status;
+
+    @Column(nullable = false)
+    private String startPoint;
+
+    @Column(nullable = false)
+    private String endPoint;
+
+    @ElementCollection
+    @Column
+    private List<String> additionalpoints = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
