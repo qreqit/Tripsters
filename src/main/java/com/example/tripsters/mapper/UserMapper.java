@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class)
 public interface UserMapper {
+    @Mapping(source = "photoUrl", target = "fileUrl")
     @Mapping(target = "createdAt", source = "createdAt")
     UserResponseDto toDto(User user);
 

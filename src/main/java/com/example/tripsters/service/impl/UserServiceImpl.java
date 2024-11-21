@@ -12,10 +12,23 @@ import com.example.tripsters.repository.UserRepository;
 import com.example.tripsters.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +41,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private String uploadDir = "src/main/resources/images";
 
     @Override
     @Transactional
@@ -65,5 +79,59 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new  EntityNotFoundException("User nor foud with email: " + authentication.getName()));
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public ResponseEntity<String> uploadImage(MultipartFile file) {
+        User user = getAuthenticatedUser();
+        try {
+            String filePath = saveImage(file);
+            return ResponseEntity.ok("Image uploaded successfully: " + filePath);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+        }
+    }
+
+    private String saveImage(MultipartFile file) throws IOException {
+        User user = getAuthenticatedUser();
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        String fileName = "FileForUserWithId" + user.getId() + ".jpg";
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        user.setPhotoUrl(fileName);
+        userRepository.save(user);
+        return filePath.toString();
+    }
+
+    @Override
+    public ResponseEntity<Resource> getImage(String filename) {
+        try {
+            Path filePath = Paths.get(uploadDir).resolve(filename);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MalformedURLException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String authenticatedUserEmail = authentication.getName();
+
+        return userRepository.findByEmail(authenticatedUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Authenticated "
+                        + "user not found"));
     }
 }
