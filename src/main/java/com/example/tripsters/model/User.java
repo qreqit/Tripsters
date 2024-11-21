@@ -49,6 +49,9 @@ public class User implements UserDetails {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
+    @Column
+    private String photoUrl;
+
     @ManyToMany
     @JoinTable(
             name = "users_roles",

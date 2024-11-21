@@ -20,4 +20,5 @@ public class UserResponseDto {
     private String lastName;
     private String createdAt;
     private boolean isDeleted;
+    private String fileUrl;
 }
