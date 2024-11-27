@@ -9,6 +9,7 @@ import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.AdditionalPointMapper;
 import com.example.tripsters.mapper.TripMapper;
 import com.example.tripsters.mapper.UserMapper;
+import com.example.tripsters.model.AdditionalPoint;
 import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
 import com.example.tripsters.repository.TripRepository;
@@ -39,9 +40,20 @@ public class TripServiceImpl implements TripService {
         Trip trip = tripMapper.toModel(requestDto);
         User authenticatedUser = getAuthenticatedUser();
 
+        List<AdditionalPoint> additionalPoints = requestDto.getAdditionalPoints()
+                        .stream()
+                                .map(pointText -> {
+                                    AdditionalPoint additionalPoint = new AdditionalPoint();
+                                    additionalPoint.setAdditionalPoint(pointText);
+                                    additionalPoint.setTrip(trip);
+                                    return additionalPoint;
+                                })
+                                        .toList();
+        trip.setStartPoint(requestDto.getStartPoint());
         trip.setCreatedAt(LocalDateTime.now());
         trip.setOwnerId(authenticatedUser.getId());
 
+        trip.setAdditionalPoints(additionalPoints);
         Set<User> listOfUsersInTrip = trip.getUsers();
         listOfUsersInTrip.add(authenticatedUser);
 
@@ -51,6 +63,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    @Transactional
     public TripResponseDto updateTrip(UpdateTripRequestDto requestDto) {
         User authenticatedUser = getAuthenticatedUser();
         Trip trip = tripRepository.findById(requestDto.getId())
@@ -58,17 +71,34 @@ public class TripServiceImpl implements TripService {
                         + "not found with id: " + requestDto.getId()));
 
         checkOwnership(trip, authenticatedUser);
+
         trip.setDestination(requestDto.getDestination());
         trip.setStartDate(LocalDateTime.parse(requestDto.getStartDate()));
         trip.setEndDate(LocalDateTime.parse(requestDto.getEndDate()));
-        trip.setAdditionalpoints(requestDto.getAdditionalPoints());
         trip.setStartPoint(requestDto.getStartPoint());
         trip.setEndPoint(requestDto.getEndPoint());
+
+        if (requestDto.getAdditionalPoints() != null) {
+            trip.getAdditionalPoints().clear();
+
+            List<AdditionalPoint> additionalPoints = requestDto.getAdditionalPoints()
+                    .stream()
+                    .map(pointText -> {
+                        AdditionalPoint additionalPoint = new AdditionalPoint();
+                        additionalPoint.setAdditionalPoint(pointText);
+                        additionalPoint.setTrip(trip);
+                        return additionalPoint;
+                    })
+                    .toList();
+
+            trip.getAdditionalPoints().addAll(additionalPoints);
+        }
 
         tripRepository.save(trip);
 
         return tripMapper.toDto(trip);
     }
+
 
     @Override
     @Transactional

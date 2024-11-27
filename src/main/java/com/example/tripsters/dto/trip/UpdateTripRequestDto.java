@@ -1,6 +1,5 @@
 package com.example.tripsters.dto.trip;
 
-import com.example.tripsters.additionalpoint.AdditionalPointDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -15,5 +14,5 @@ public class UpdateTripRequestDto {
     private String endDate;
     private String startPoint;
     private String endPoint;
-    private List<AdditionalPointDto> additionalPoints;
+    private List<String> additionalPoints;
 }
