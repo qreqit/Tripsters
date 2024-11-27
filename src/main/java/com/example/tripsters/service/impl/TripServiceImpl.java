@@ -6,6 +6,7 @@ import com.example.tripsters.dto.trip.UpdateTripRequestDto;
 import com.example.tripsters.dto.user.UserResponseDto;
 import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
+import com.example.tripsters.mapper.AdditionalPointMapper;
 import com.example.tripsters.mapper.TripMapper;
 import com.example.tripsters.mapper.UserMapper;
 import com.example.tripsters.model.Trip;
@@ -30,6 +31,7 @@ public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
     private final UserMapper userMapper;
+    private final AdditionalPointMapper additionalPointMapper;
 
     @Override
     @Transactional

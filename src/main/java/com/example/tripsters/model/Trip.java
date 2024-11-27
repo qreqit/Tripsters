@@ -62,9 +62,8 @@ public class Trip {
     @Column(nullable = false)
     private String endPoint;
 
-    @ElementCollection
-    @Column
-    private List<String> additionalpoints = new ArrayList<>();
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AdditionalPoint> additionalpoints = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
