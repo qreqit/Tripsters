@@ -7,6 +7,7 @@ import com.example.tripsters.dto.user.UserResponseDto;
 import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.AdditionalPointMapper;
+import com.example.tripsters.mapper.AdditionalPointRepositiry;
 import com.example.tripsters.mapper.TripMapper;
 import com.example.tripsters.mapper.UserMapper;
 import com.example.tripsters.model.AdditionalPoint;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -33,34 +35,57 @@ public class TripServiceImpl implements TripService {
     private final TripMapper tripMapper;
     private final UserMapper userMapper;
     private final AdditionalPointMapper additionalPointMapper;
+    private final AdditionalPointRepositiry additionalPointRepositiry;
 
     @Override
     @Transactional
     public TripResponseDto createTrip(CreateTripRequestDto requestDto) {
-        Trip trip = tripMapper.toModel(requestDto);
+        Trip trip = new Trip();
         User authenticatedUser = getAuthenticatedUser();
 
-        List<AdditionalPoint> additionalPoints = requestDto.getAdditionalPoints()
-                        .stream()
-                                .map(pointText -> {
-                                    AdditionalPoint additionalPoint = new AdditionalPoint();
-                                    additionalPoint.setAdditionalPoint(pointText);
-                                    additionalPoint.setTrip(trip);
-                                    return additionalPoint;
-                                })
-                                        .toList();
+        trip.setDestination(requestDto.getDestination());
         trip.setStartPoint(requestDto.getStartPoint());
+        trip.setEndPoint(requestDto.getEndPoint());
         trip.setCreatedAt(LocalDateTime.now());
+
+        // Парсинг дат
+        if (requestDto.getStartDate() == null || requestDto.getEndDate() == null) {
+            throw new IllegalArgumentException("Start date and end date cannot be null");
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        trip.setStartDate(LocalDateTime.parse(requestDto.getStartDate(), formatter));
+        trip.setEndDate(LocalDateTime.parse(requestDto.getEndDate(), formatter));
+
         trip.setOwnerId(authenticatedUser.getId());
 
-        trip.setAdditionalPoints(additionalPoints);
-        Set<User> listOfUsersInTrip = trip.getUsers();
-        listOfUsersInTrip.add(authenticatedUser);
+        // Зберегти trip перед додаванням дочірніх об'єктів
+        tripRepository.save(trip);
 
+        // Додаткові точки
+        if (requestDto.getAdditionalPoints() != null) {
+            List<AdditionalPoint> additionalPoints = requestDto.getAdditionalPoints()
+                    .stream()
+                    .map(pointText -> {
+                        AdditionalPoint additionalPoint = new AdditionalPoint();
+                        additionalPoint.setAdditionalPoint(pointText);
+                        additionalPoint.setTrip(trip);
+                        return additionalPoint;
+                    })
+                    .toList();
+
+            additionalPointRepositiry.saveAll(additionalPoints);
+            trip.setAdditionalPoints(additionalPoints);
+        }
+
+        // Додавання автентифікованого користувача до trip
+        trip.getUsers().add(authenticatedUser);
+
+        // Оновлення trip
         tripRepository.save(trip);
 
         return tripMapper.toDto(trip);
     }
+
 
     @Override
     @Transactional

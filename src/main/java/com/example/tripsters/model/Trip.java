@@ -53,10 +53,10 @@ public class Trip {
     @Column
     private TripStatus status;
 
-    @Column(nullable = false)
+    @Column(name = "start_point")
     private String startPoint;
 
-    @Column(nullable = false)
+    @Column(name = "end_point")
     private String endPoint;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
