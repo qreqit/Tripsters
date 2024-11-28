@@ -1,4 +1,4 @@
-    package com.example.tripsters.config;
+package com.example.tripsters.config;
 
 import com.example.tripsters.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-
 import java.util.Arrays;
 import java.util.List;
 
-    @EnableMethodSecurity
+@EnableMethodSecurity
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -38,8 +37,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins((List.of("http://localhost:5176", "http://127.0.0.1:5176")));
-                    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    configuration.setAllowedOrigins((List.of("http://localhost:5176",
+                            "http://127.0.0.1:5176")));
+                    configuration.setAllowedMethods(List.of("GET", "POST",
+                            "PUT", "DELETE", "OPTIONS"));
                     configuration.setAllowedHeaders(Arrays.asList("*"));
                     return configuration;
                 }))

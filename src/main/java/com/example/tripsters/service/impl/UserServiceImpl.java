@@ -77,7 +77,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto getCurrentUser(Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName())
-                .orElseThrow(() -> new  EntityNotFoundException("User nor foud with email: " + authentication.getName()));
+                .orElseThrow(() -> new EntityNotFoundException("User nor "
+                        + "foud with email: " + authentication.getName()));
         return userMapper.toDto(user);
     }
 
@@ -88,7 +89,8 @@ public class UserServiceImpl implements UserService {
             String filePath = saveImage(file);
             return ResponseEntity.ok("Image uploaded successfully: " + filePath);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading image");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error uploading image");
         }
     }
 

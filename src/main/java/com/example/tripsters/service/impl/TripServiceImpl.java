@@ -143,7 +143,8 @@ public class TripServiceImpl implements TripService {
     @Transactional
     public List<UserResponseDto> getAllUsersInTrip(Long tripId) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: "
+                        + tripId));
         User user = getAuthenticatedUser();
         checkUserInTrip(tripId, user);
 
@@ -156,11 +157,13 @@ public class TripServiceImpl implements TripService {
     @Transactional
     public UserResponseDto getOwnerOfTrip(Long tripId) {
         Trip trip = tripRepository.findById(tripId)
-                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: " + tripId));
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found with id: "
+                        + tripId));
         User user = getAuthenticatedUser();
         checkUserInTrip(tripId, user);
         User owner = userRepository.findById(trip.getOwnerId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + trip.getOwnerId()));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: "
+                        + trip.getOwnerId()));
         return userMapper.toDto(owner);
     }
 
