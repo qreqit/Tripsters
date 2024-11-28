@@ -1,6 +1,18 @@
 package com.example.tripsters.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,12 +61,10 @@ public class Trip {
     @Column(nullable = false)
     private String endPoint;
 
-
     @ElementCollection
     @CollectionTable(name = "trip_additional_points", joinColumns = @JoinColumn(name = "trip_id"))
     @Column(name = "point")
     private List<String> additionalpoints = new ArrayList<>();
-
 
     @ManyToMany
     @JoinTable(
