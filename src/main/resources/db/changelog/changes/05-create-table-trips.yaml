@@ -54,6 +54,29 @@ databaseChangeLog:
             referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_trips_owner
+        # Створення таблиці trip_additional_points для @ElementCollection
+        - createTable:
+            tableName: trip_additional_points
+            columns:
+              - column:
+                  name: trip_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: point
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+        # Додавання зовнішнього ключа для trip_additional_points
+        - addForeignKeyConstraint:
+            baseTableName: trip_additional_points
+            baseColumnNames: trip_id
+            referencedTableName: trips
+            referencedColumnNames: id
+            constraintName: fk_trip_additional_points_trip
+
         - createTable:
             tableName: trips_users
             columns:
