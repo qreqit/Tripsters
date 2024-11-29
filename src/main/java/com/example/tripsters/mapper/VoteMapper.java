@@ -7,16 +7,16 @@ import com.example.tripsters.model.VoteOption;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface VoteMapper {
-
     @Mapping(source = "voteOptions", target = "voteOptions", qualifiedByName = "mapVoteOptions")
     VoteResponseDto toDto(Vote vote);
+
+    VoteOptionResponseDto toDto(VoteOption voteOption);
 
     @Named("mapVoteOptions")
     default List<VoteOptionResponseDto> mapVoteOptions(Set<VoteOption> voteOptions) {
@@ -24,6 +24,4 @@ public interface VoteMapper {
                           .map(this::toDto)
                           .collect(Collectors.toList());
     }
-
-    VoteOptionResponseDto toDto(VoteOption voteOption);
 }
