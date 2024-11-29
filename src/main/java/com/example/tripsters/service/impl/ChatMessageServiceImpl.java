@@ -7,7 +7,6 @@ import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.ChatMessageMapper;
 import com.example.tripsters.model.ChatMessage;
-import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
 import com.example.tripsters.repository.ChatMessageRepository;
 import com.example.tripsters.repository.TripRepository;
