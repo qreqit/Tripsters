@@ -7,21 +7,26 @@ import com.example.tripsters.model.VoteOption;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface VoteMapper {
-    @Mapping(source = "voteOptions", target = "voteOptions", qualifiedByName = "mapVoteOptions")
-    VoteResponseDto toDto(Vote vote);
+public abstract class VoteMapper {
 
-    VoteOptionResponseDto toDto(VoteOption voteOption);
+    @Autowired
+    private VoteOptionMapper voteOptionMapper;
+
+    @Mapping(source = "trip.id", target = "tripId")
+    @Mapping(source = "voteOptions", target = "voteOptions", qualifiedByName = "mapVoteOptions")
+    public abstract VoteResponseDto toDto(Vote vote);
 
     @Named("mapVoteOptions")
-    default List<VoteOptionResponseDto> mapVoteOptions(Set<VoteOption> voteOptions) {
+    protected List<VoteOptionResponseDto> mapVoteOptions(Set<VoteOption> voteOptions) {
         return voteOptions.stream()
-                          .map(this::toDto)
-                          .collect(Collectors.toList());
+                .map(voteOptionMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

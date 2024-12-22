@@ -12,5 +12,5 @@ public class VoteOptionResponseDto {
     @NotBlank
     private String optionText;
     @Min(0)
-    private Long count;
+    private int count;
 }
