@@ -24,7 +24,7 @@ public class VoteOption {
     @Column(nullable = false)
     private String optionText;
     @Column(nullable = false)
-    private double voteCount;
+    private int voteCount;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vote_id", nullable = false)
     private Vote vote;
