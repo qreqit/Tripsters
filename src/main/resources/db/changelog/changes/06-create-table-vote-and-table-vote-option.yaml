@@ -24,6 +24,11 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
         - addForeignKeyConstraint:
             baseTableName: votes
             baseColumnNames: trip_id
