@@ -51,6 +51,7 @@ public class VoteServiceImpl implements VoteService {
         Vote vote = new Vote();
         vote.setCreatedAt(LocalDateTime.now());
         vote.setTrip(trip);
+        vote.setTitle(requestDto.getTitle());
         vote.setUsers(new HashSet<>(trip.getUsers()));
 
         Set<VoteOption> voteOptions = requestDto.getVoteOptions()
