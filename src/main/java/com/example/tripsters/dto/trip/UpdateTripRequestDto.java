@@ -1,6 +1,5 @@
 package com.example.tripsters.dto.trip;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 

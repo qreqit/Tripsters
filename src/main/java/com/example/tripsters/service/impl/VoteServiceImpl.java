@@ -7,7 +7,6 @@ import com.example.tripsters.exception.EntityNotFoundException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.VoteMapper;
 import com.example.tripsters.mapper.VoteOptionMapper;
-import com.example.tripsters.model.Trip;
 import com.example.tripsters.model.User;
 import com.example.tripsters.model.Vote;
 import com.example.tripsters.model.VoteOption;
@@ -51,6 +50,7 @@ public class VoteServiceImpl implements VoteService {
         Vote vote = new Vote();
         vote.setCreatedAt(LocalDateTime.now());
         vote.setTrip(trip);
+        vote.setTitle(requestDto.getTitle());
         vote.setUsers(new HashSet<>(trip.getUsers()));
 
         Set<VoteOption> voteOptions = requestDto.getVoteOptions()
