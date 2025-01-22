@@ -113,11 +113,21 @@ public class VoteServiceImpl implements VoteService {
         voteOption.setVoteCount(voteOption.getVoteCount() + 1);
         voteOptionRepository.save(voteOption);
 
-        vote.getVotedUsers().add(authenticatedUser); // Mark user as having voted
+        vote.getVotedUsers().add(authenticatedUser);
         voteRepository.save(vote);
 
         return voteOptionMapper.toDto(voteOption);
     }
+
+    @Override
+    public List<VoteResponseDto> getVotesForCurrentTrip(Long tripId) {
+        List<Vote> votes = voteRepository.findAllByTripId(tripId);
+
+        return votes.stream()
+                .map(voteMapper::toDto)
+                .toList();
+    }
+
 
     private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext()

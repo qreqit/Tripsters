@@ -30,6 +30,11 @@ public class VoteController {
         return voteService.getVote(voteId);
     }
 
+    @GetMapping("/all/{tripId}")
+    public List<VoteResponseDto> getAllVotes(@PathVariable Long tripId) {
+        return voteService.getVotesForCurrentTrip(tripId);
+    }
+
     @GetMapping("/{voteId}/options")
     public List<VoteOptionResponseDto> getVoteOptions(@PathVariable Long voteId) {
         return voteService.getVoteOptions(voteId);
