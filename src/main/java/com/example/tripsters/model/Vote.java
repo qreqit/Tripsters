@@ -32,6 +32,8 @@ public class Vote {
     private String title;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = false, name = "if_finished")
+    private boolean ifFinished = false;
     @ManyToMany
     @JoinTable(
             name = "votes_users",

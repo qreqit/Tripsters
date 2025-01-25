@@ -15,4 +15,5 @@ public class VoteResponseDto {
     @NotBlank
     private String title;
     private List<VoteOptionResponseDto> voteOptions;
+    private boolean ifFinished;
 }

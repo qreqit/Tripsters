@@ -29,6 +29,11 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+              - column:
+                   name: if_finished
+                   type: boolean
+                   constraints:
+                     nullable: false
         - addForeignKeyConstraint:
             baseTableName: votes
             baseColumnNames: trip_id

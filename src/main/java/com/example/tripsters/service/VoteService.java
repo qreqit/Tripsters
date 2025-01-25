@@ -16,4 +16,6 @@ public interface VoteService {
     VoteResponseDto getVote(Long voteId);
 
     VoteOptionResponseDto voteForOption(Long voteId, Long voteOptionId);
+
+    VoteResponseDto finishVote(Long voteId);
 }

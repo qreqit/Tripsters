@@ -4,6 +4,7 @@ import com.example.tripsters.dto.vote.CreateVoteRequestDto;
 import com.example.tripsters.dto.vote.VoteOptionResponseDto;
 import com.example.tripsters.dto.vote.VoteResponseDto;
 import com.example.tripsters.exception.EntityNotFoundException;
+import com.example.tripsters.exception.RegistrationException;
 import com.example.tripsters.exception.UnauthorizedException;
 import com.example.tripsters.mapper.VoteMapper;
 import com.example.tripsters.mapper.VoteOptionMapper;
@@ -109,7 +110,9 @@ public class VoteServiceImpl implements VoteService {
         VoteOption voteOption = voteOptionRepository.findById(voteOptionId)
                 .orElseThrow(() -> new EntityNotFoundException("Vote option "
                         + "not found with id: " + voteOptionId));
-
+        if (vote.isIfFinished()) {
+            throw new RegistrationException("Vote is finished");
+        }
         voteOption.setVoteCount(voteOption.getVoteCount() + 1);
         voteOptionRepository.save(voteOption);
 
@@ -117,6 +120,15 @@ public class VoteServiceImpl implements VoteService {
         voteRepository.save(vote);
 
         return voteOptionMapper.toDto(voteOption);
+    }
+
+    @Override
+    public VoteResponseDto finishVote(Long voteId) {
+        Vote vote = voteRepository.findById(voteId)
+                .orElseThrow(() -> new EntityNotFoundException("Vote not found with id: " + voteId));
+        vote.setIfFinished(true);
+        voteRepository.save(vote);
+        return voteMapper.toDto(vote);
     }
 
     @Override
