@@ -39,6 +39,11 @@ public class TripController {
         return tripService.addUserToTrip(tripId, userId);
     }
 
+    @GetMapping("/trips/{userId}")
+    public List<TripResponseDto> getTripsByUserId(@PathVariable Long userId) {
+        return tripService.getTripByUserId(userId);
+    }
+
     @GetMapping("/owner/{tripId}")
     public UserResponseDto getOwnerOfTrip(@PathVariable Long tripId) {
         return tripService.getOwnerOfTrip(tripId);

@@ -70,6 +70,17 @@ public class TripServiceImpl implements TripService {
 
     @Override
     @Transactional
+    public List<TripResponseDto> getTripByUserId(Long userId) {
+        List<Trip> trips = tripRepository
+                .findByUsersId(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not foud with user id: " + userId));
+        return trips.stream()
+                .map(tripMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    @Transactional
     public TripResponseDto addUserToTrip(Long tripId, Long userId) {
         User authenticatedUser = getAuthenticatedUser();
         Trip trip = tripRepository.findById(tripId)

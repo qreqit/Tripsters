@@ -22,5 +22,7 @@ public interface TripService {
 
     UserResponseDto getOwnerOfTrip(Long tripId);
 
+    List<TripResponseDto> getTripByUserId(Long userId);
+
     void deleteTripById(Long id);
 }
