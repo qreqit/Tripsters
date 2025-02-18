@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private String uploadDir = "src/main/resources/images";
+    private String uploadDir = "images";
 
     @Override
     @Transactional
