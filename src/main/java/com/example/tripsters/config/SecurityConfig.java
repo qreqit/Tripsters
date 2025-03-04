@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration configuration = new CorsConfiguration();
                     configuration.setAllowedOrigins((List.of("http://localhost:5176",
-                            "http://127.0.0.1:5176", "https://reaffith.github.io/Tripsters")));
+                            "http://127.0.0.1:5176", "https://reaffith.github.io")));
                     configuration.setAllowedMethods(List.of("GET", "POST",
                             "PUT", "DELETE", "OPTIONS"));
                     configuration.setAllowedHeaders(Arrays.asList("*"));
