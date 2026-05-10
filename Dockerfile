@@ -18,7 +18,7 @@ WORKDIR /app/application
 RUN java -Djarmode=layertools -jar application.jar extract
 
 # Final stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR application
 COPY --from=builder /app/application/dependencies/ ./
 COPY --from=builder /app/application/spring-boot-loader/ ./
